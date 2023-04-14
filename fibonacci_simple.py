@@ -61,8 +61,8 @@ def generateTimingPlot(fibonacciTimes, nmax):
     dfMelt = dfFibonacciTimes.melt(id_vars=['n'], value_vars=['simple','dynamic'])
     
     #sns.lineplot(data=dfMelt, x="n", y="simple", hue='variable')
-    plt.xlabel("Fibonacci number", size=20)
-    plt.ylabel("runtime (s)", size=20)
+    plt.xlabel("Fibonacci number")
+    plt.ylabel("runtime (s)",)
     sns.scatterplot(data=dfMelt, x="n", y="value", hue='variable').set(title='Title of Plot')
     
     timingPlotFile = os.path.join(os.getcwd(), "fibonacci_timing_0_to_" + str(nmax) + ".png")
