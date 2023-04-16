@@ -3,6 +3,8 @@ from timeit import default_timer as timer
 from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 
+import unittest
+
 import sys
 import os
 
@@ -17,10 +19,15 @@ def parseArgs(argv):
         args = parser.parse_args()
     
         global maxNumber
-
         maxNumber = args.maxnumber
         
-        print("max Fibonacci number to calculate is <" + str(maxNumber) + ">")
+        # check the user specified a fasta file, if not warn and and exit
+        if maxNumber:
+            print("max Fibonacci number to calculate is <" + str(maxNumber) + ">")
+        else:
+            print("you must specify a max Fibonacci number")
+            exit        
+        
         
     except KeyboardInterrupt:
         ### handle keyboard interrupt ###
@@ -53,7 +60,6 @@ def timeSimpleVersusDynamicFibo(nMax):
     
 def generateTimingPlot(fibonacciTimes, nmax):
     import seaborn as sns
-    import matplotlib
     import pandas as pd
     import matplotlib.pyplot as plt
     
@@ -112,17 +118,37 @@ def fibDynamic(n):
     savedFibNumbers[n] = fibDynamic(n -1) + fibDynamic(n - 2)
 
     return(savedFibNumbers[n])    
+ 
+ 
+
+class CheckFibonacciDynamic(unittest.TestCase):
+    
+    # check the fibonacci dynamic calculation is correct
+    def test_negative(self):
+        
+        nmax=25
+        global savedFibNumbers
+        savedFibNumbers=[0]*nmax
+        
+        message = "fibonacci calculation is wrong !"
+        # assertEqual() to check equality of first & second value
+        self.assertEqual(fibDynamic(10), 55, message)
+  
         
 
-def main(argv=None): # IGNORE:C0111
+def main(argv=None): 
 
     if argv is None:
         argv = sys.argv
     nmax = 25
-
+    
+    parseArgs(argv)
+    
     global savedFibNumbers
     savedFibNumbers=[0]*nmax
+    
 
+    #unittest.CheckFibonacciDynamic()
 
     
     fibonacciTimes = timeSimpleVersusDynamicFibo(nmax)
@@ -130,7 +156,6 @@ def main(argv=None): # IGNORE:C0111
     generateTimingPlot(fibonacciTimes, nmax)
     
     
-    parseArgs(argv)
 
 
     
