@@ -124,6 +124,8 @@ def fibDynamic(n):
 class CheckFibonacciDynamic(unittest.TestCase):
     
     # check the fibonacci dynamic calculation is correct
+    # can read more about unittesting here 
+    #  https://machinelearningmastery.com/a-gentle-introduction-to-unit-testing-in-python/
     def test_negative(self):
         
         nmax=25
